@@ -5,131 +5,376 @@
     {
       "name": "record_id",
       "type": "string",
-      "required": true,
-      "description": "Stable unique identifier for one binding measurement record.",
-      "example": "rec_apt_thrombin_2018_pdf_001"
+      "description": "Уникальный идентификатор записи в датасете (генерируется при сборе).",
+      "required": true
     },
     {
-      "name": "aptamer_sequence",
+      "name": "source_doi",
       "type": "string",
-      "required": true,
-      "description": "Nucleotide sequence of the aptamer (DNA or RNA), 5' to 3'.",
-      "example": "GGTTGGTGTGGTTGG",
-      "normalization_rule": "Uppercase; remove spaces and hyphens; keep only A,C,G,T,U."
+      "description": "DOI статьи, из которой извлечены данные.",
+      "required": true
     },
     {
-      "name": "target_name",
+      "name": "sample_id_in_source",
       "type": "string",
-      "required": true,
-      "description": "Name of the protein or biomolecular target.",
-      "example": "Thrombin"
+      "description": "Обозначение образца катализатора в исходной статье (например, 'NiFe-LDH-2').",
+      "required": false
     },
     {
-      "name": "target_type",
+      "name": "catalyst_composition",
       "type": "string",
-      "required": false,
-      "description": "Broad classification of the target (e.g. enzyme, receptor, toxin).",
-      "example": "serine protease"
+      "description": "Химическая формула или текстовое описание состава катализатора (например, 'Ni0.8Fe0.2(OH)2' или 'IrO2 nanoparticles on Ti mesh').",
+      "required": true
     },
     {
-      "name": "measurement_type",
+      "name": "catalyst_class",
       "type": "string",
+      "description": "Класс соединения катализатора.",
       "required": true,
-      "description": "Reported affinity or binding metric (Kd, Ki, IC50, etc.).",
-      "example": "Kd"
+      "enum": [
+        "oxide",
+        "layered double hydroxide",
+        "perovskite",
+        "spinel",
+        "phosphide",
+        "sulfide",
+        "selenide",
+        "nitride",
+        "carbide",
+        "metal-organic framework",
+        "covalent organic framework",
+        "alloy",
+        "hybrid_composite",
+        "other"
+      ]
     },
     {
-      "name": "measurement_value",
+      "name": "metal_elements",
+      "type": "array<string>",
+      "description": "Список металлических элементов в составе катализатора (например, ['Ni','Fe']).",
+      "required": true
+    },
+    {
+      "name": "primary_metal",
+      "type": "string",
+      "description": "Основной каталитически активный металл (Ni, Co, Fe, Ir, Ru, Mn и т.д.).",
+      "required": false
+    },
+    {
+      "name": "dopant_elements",
+      "type": "array<string>",
+      "description": "Легирующие элементы, если применимо.",
+      "required": false
+    },
+    {
+      "name": "is_noble_metal",
+      "type": "boolean",
+      "description": "Содержит ли катализатор благородные металлы (Ir, Ru, Pt и др.).",
+      "required": true
+    },
+    {
+      "name": "is_hybrid",
+      "type": "boolean",
+      "description": "Является ли катализатор гибридным (содержит углеродную матрицу, органические компоненты).",
+      "required": true
+    },
+    {
+      "name": "carbon_present",
+      "type": "boolean",
+      "description": "Присутствует ли углеродный компонент в составе катализатора или электродной композиции (даже как носитель или проводящая добавка).",
+      "required": true
+    },
+    {
+      "name": "support_substrate",
+      "type": "string",
+      "description": "Подложка, на которую нанесён катализатор (или самонесущий электрод).",
+      "required": true,
+      "enum": [
+        "glassy carbon",
+        "Ni foam",
+        "Cu foam",
+        "Fe foam",
+        "carbon paper",
+        "carbon cloth",
+        "Ti mesh",
+        "Ti foil",
+        "FTO glass",
+        "ITO glass",
+        "graphite plate",
+        "self-supported",
+        "other"
+      ]
+    },
+    {
+      "name": "catalyst_loading_mg_per_cm2",
       "type": "number",
-      "required": false,
-      "description": "Numeric value as reported in the source.",
-      "example": 0.5
+      "description": "Загрузка катализатора, мг/см² (по геометрической площади электрода).",
+      "required": false
     },
     {
-      "name": "measurement_unit",
+      "name": "loading_definition",
       "type": "string",
+      "description": "Уточнение, к какой площади отнесена загрузка: геометрическая, BET, ECSA.",
       "required": false,
-      "description": "Unit of measurement_value (nM, μM, pM, etc.).",
-      "example": "nM",
-      "normalization_rule": "Map synonyms to nM, μM, pM, M; store original in notes if converted."
+      "enum": [
+        "geometric", 
+        "BET", 
+        "ECSA", 
+        "unknown"
+      ]
     },
     {
-      "name": "normalized_value_nm",
-      "type": "number",
-      "required": false,
-      "description": "Binding affinity converted to nanomolar (nM) for comparison.",
-      "example": 0.5,
-      "normalization_rule": "Convert measurement_value using measurement_unit to nM."
-    },
-    {
-      "name": "assay_method",
+      "name": "synthesis_method",
       "type": "string",
+      "description": "Основной метод синтеза катализатора.",
       "required": false,
-      "description": "Experimental method used to obtain the measurement.",
-      "example": "surface plasmon resonance"
+      "enum": [
+        "hydrothermal",
+        "solvothermal",
+        "co-precipitation",
+        "electrodeposition",
+        "pyrolysis of MOF",
+        "sol-gel",
+        "solid-state reaction",
+        "thermal decomposition",
+        "ball milling",
+        "chemical vapor deposition",
+        "other"
+      ]
     },
     {
-      "name": "buffer",
+      "name": "morphology",
       "type": "string",
+      "description": "Описание морфологии катализатора.",
       "required": false,
-      "description": "Buffer composition during the binding assay.",
-      "example": "PBS with 5 mM MgCl2"
+      "enum": [
+        "nanoparticles",
+        "nanosheets",
+        "nanorods",
+        "nanowires",
+        "nanocubes",
+        "nanoflowers",
+        "porous",
+        "amorphous",
+        "crystalline",
+        "film",
+        "other"
+      ]
     },
     {
-      "name": "temperature_c",
-      "type": "number",
-      "required": false,
-      "description": "Assay temperature in degrees Celsius.",
-      "example": 25
-    },
-    {
-      "name": "source_id",
+      "name": "electrolyte_type",
       "type": "string",
+      "description": "Тип электролита (кислый или щелочной).",
       "required": true,
-      "description": "Identifier linking to an entry in specs/source_map.json.",
-      "example": "paper_green_2018"
+      "enum": [
+        "acidic", 
+        "alkaline"
+      ]
     },
     {
-      "name": "source_type",
+      "name": "electrolyte_composition",
       "type": "string",
-      "required": false,
-      "description": "Category of source (paper, database, web page, etc.).",
-      "example": "scientific_paper"
+      "description": "Полное название электролита с концентрацией (например, '1 M KOH', '0.1 M HClO4').",
+      "required": true
     },
     {
-      "name": "source_url",
-      "type": "string",
-      "required": false,
-      "description": "URL or landing page for the source.",
-      "example": "https://doi.org/10.1021/example"
+      "name": "electrolyte_concentration_mol_L",
+      "type": "number",
+      "description": "Молярная концентрация электролита, моль/л.",
+      "required": false
     },
     {
-      "name": "doi",
-      "type": "string",
-      "required": false,
-      "description": "Digital Object Identifier when available.",
-      "example": "10.1021/example"
+      "name": "pH",
+      "type": "number",
+      "description": "Измеренное или расчётное значение pH электролита.",
+      "required": false
     },
     {
-      "name": "extraction_method",
-      "type": "string",
-      "required": false,
-      "description": "How the record was obtained (pdf_manual, pdf_table, web_scrape, etc.).",
-      "example": "pdf_table"
+      "name": "temperature_C",
+      "type": "number",
+      "description": "Температура испытаний, °C.",
+      "required": false
     },
     {
-      "name": "extraction_confidence",
+      "name": "ir_compensation",
       "type": "string",
+      "description": "Уровень iR-компенсации, применяемый при записи поляризационных кривых.",
+      "required": true,
+      "enum": [
+        "none", 
+        "80%", 
+        "85%", 
+        "90%", 
+        "95%", 
+        "100%", 
+        "yes (unspecified)", 
+        "not reported"
+      ]
+    },
+    {
+      "name": "counter_electrode",
+      "type": "string",
+      "description": "Материал противоэлектрода.",
       "required": false,
-      "description": "Confidence in extracted values: high, medium, low, or unknown.",
-      "example": "high"
+      "enum": [
+        "Pt wire", 
+        "Pt mesh", 
+        "graphite rod", 
+        "glassy carbon", 
+        "other"
+      ]
+    },
+    {
+      "name": "reference_electrode",
+      "type": "string",
+      "description": "Тип электрода сравнения.",
+      "required": false,
+      "enum": [
+        "Hg/HgO", 
+        "Ag/AgCl (sat. KCl)", 
+        "Ag/AgCl (3M KCl)", 
+        "RHE", 
+        "SCE", 
+        "other"
+      ]
+    },
+    {
+      "name": "potential_vs_RHE",
+      "type": "boolean",
+      "description": "Пересчитаны ли потенциалы в шкалу обратимого водородного электрода (RHE).",
+      "required": true
+    },
+    {
+      "name": "working_electrode_geometric_area_cm2",
+      "type": "number",
+      "description": "Геометрическая площадь рабочего электрода, см².",
+      "required": false
+    },
+    {
+      "name": "scan_rate_mV_s",
+      "type": "number",
+      "description": "Скорость развертки потенциала при записи LSV, мВ/с.",
+      "required": false
+    },
+    {
+      "name": "overpotential_eta10_mV",
+      "type": "number",
+      "description": "Перенапряжение при плотности тока 10 мА/см² (геометрической), мВ. Основной бенчмарк.",
+      "required": true
+    },
+    {
+      "name": "overpotential_eta100_mV",
+      "type": "number",
+      "description": "Перенапряжение при 100 мА/см², мВ (если приведено).",
+      "required": false
+    },
+    {
+      "name": "overpotential_at_other_current_density",
+      "type": "number",
+      "description": "Перенапряжение при другой указанной плотности тока (мВ). Заполняется вместе со следующим полем.",
+      "required": false
+    },
+    {
+      "name": "current_density_for_overpotential_mA_cm2",
+      "type": "number",
+      "description": "Плотность тока, для которой указано перенапряжение в предыдущем поле, мА/см².",
+      "required": false
+    },
+    {
+      "name": "current_density_at_1.55V_vs_RHE",
+      "type": "number",
+      "description": "Плотность тока при потенциале 1.55 В относительно RHE (распространённый альтернативный ориентир), мА/см².",
+      "required": false
+    },
+    {
+      "name": "tafel_slope_mV_dec",
+      "type": "number",
+      "description": "Тафелевский наклон, мВ/дек.",
+      "required": false
+    },
+    {
+      "name": "exchange_current_density_A_cm2",
+      "type": "number",
+      "description": "Плотность тока обмена, А/см².",
+      "required": false
+    },
+    {
+      "name": "mass_activity_A_g",
+      "type": "number",
+      "description": "Массовая активность при определённом перенапряжении, А/г.",
+      "required": false
+    },
+    {
+      "name": "specific_activity_mA_cm2_ECSA",
+      "type": "number",
+      "description": "Удельная активность, нормированная на электрохимически активную площадь (ECSA), мА/см².",
+      "required": false
+    },
+    {
+      "name": "TOF_per_s",
+      "type": "number",
+      "description": "Оборотная частота (turnover frequency), с⁻¹.",
+      "required": false
+    },
+    {
+      "name": "ECSA_cm2",
+      "type": "number",
+      "description": "Электрохимически активная площадь поверхности, см².",
+      "required": false
+    },
+    {
+      "name": "double_layer_capacitance_mF_cm2",
+      "type": "number",
+      "description": "Ёмкость двойного слоя, мФ/см² (при наличии).",
+      "required": false
+    },
+    {
+      "name": "stability_test_type",
+      "type": "string",
+      "description": "Метод испытания стабильности.",
+      "required": false,
+      "enum": [
+        "chronopotentiometry",
+        "chronoamperometry",
+        "cyclic voltammetry cycling",
+        "galvanostatic",
+        "potentiostatic"
+      ]
+    },
+    {
+      "name": "stability_test_duration_h",
+      "type": "number",
+      "description": "Длительность теста стабильности, часы.",
+      "required": false
+    },
+    {
+      "name": "stability_metric_type",
+      "type": "string",
+      "description": "Тип метрики изменения производительности в ходе теста.",
+      "required": false,
+      "enum": [
+        "overpotential_increase_mV",
+        "current_decay_percent",
+        "current_retention_percent"
+      ]
+    },
+    {
+      "name": "stability_value",
+      "type": "number",
+      "description": "Численное значение изменения: рост перенапряжения (мВ), падение тока (%), удержание тока (%).",
+      "required": false
+    },
+    {
+      "name": "faradaic_efficiency_percent",
+      "type": "number",
+      "description": "Фарадеевская эффективность выделения O2, %.",
+      "required": false
     },
     {
       "name": "notes",
       "type": "string",
-      "required": false,
-      "description": "Free-text notes, caveats, or provenance details.",
-      "example": "Value taken from Table 2; unit inferred from caption."
+      "description": "Примечания: очистка электролита, особенности синтеза, нестандартные условия.",
+      "required": false
     }
   ]
 }

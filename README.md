@@ -1,16 +1,16 @@
-# Aptamer–protein binding dataset (project template)
+# Electrocatalysts for oxygen evolution reaction dataset
 
-Publication-ready **dataset project template** for the course *Extraction and preparation of chemical information*. Students move from a research topic to a structured, validated dataset with documented sources, extraction steps, cleaning pipeline, reports, and citation metadata.
+Publication-ready **dataset for electrocatalysts for oxygen evolution reaction** for the course *Extraction and preparation of chemical information*. Students move from a research topic to a structured, validated dataset with documented sources, extraction steps, cleaning pipeline, reports, and citation metadata.
 
-**Example topic:** Aptamer–protein binding dataset (replace with your own project in `project.json`).
+**Topic:** Electrocatalysts for oxygen evolution reaction.
 
 ## Scientific task
 
-Collect experimentally reported aptamer–protein binding measurements (sequences, targets, affinity values, assay context) so they can be compared across literature and database sources.
+Collect experimentally reported composition, electrolyte, testing conditions, and performance metrics (overpotential, Tafel slope, stability) for inorganic or hybrid OER electrocatalysts, to enable comparison and identification of factors associated with low overpotential and high stability.
 
 ## What is one record?
 
-One **record** = one experimentally reported aptamer–protein binding measurement from a specific source (one row in `data/processed/dataset.csv`). See `project.json` and `reports/practice_01_record_and_schema.md`.
+One **record** = One experimentally reported measurement of OER catalytic performance for a specific catalyst in a given electrolyte and set of testing conditions, extracted from a single source.
 
 ## Repository structure
 

@@ -1,21 +1,22 @@
 {
-  "project_id": "aptamer_protein_binding",
-  "project_title": "Aptamer–protein binding dataset",
-  "project_status": "template",
-  "scientific_task": "Collect experimentally reported aptamer–protein binding measurements for downstream comparison of binding affinity values and assay conditions.",
+  "project_id": "electrocatalysts_for_oer",
+  "project_title": "Electrocatalysts for oxygen evolution reaction",
+  "project_status": "In Progress",
+  "scientific_task": "Collect experimentally reported composition, electrolyte, testing conditions, and performance metrics (overpotential, Tafel slope, stability) for inorganic or hybrid OER electrocatalysts tested under alkaline or acidic conditions, to enable comparison and identification of factors associated with low overpotential and high stability.",
   "record_definition": {
-    "one_record": "One experimentally reported aptamer–protein binding measurement from a specific source."
+    "one_record": "One experimentally reported measurement of OER catalytic performance for a specific catalyst in a given electrolyte and set of testing conditions, extracted from a single source."
   },
   "main_entities": [
-    "aptamer",
-    "protein_target",
-    "binding_measurement",
+    "catalyst",
+    "electrolyte",
+    "testing_conditions",
+    "performance_metrics",
     "source"
   ],
   "final_dataset_path": "data/processed/dataset.csv",
   "schema_path": "specs/dataset_schema.json",
   "source_map_path": "specs/source_map.json",
-  "created_by": "",
-  "created_date": "",
+  "created_by": "Aleksei Suvorov",
+  "created_date": "May 2026",
   "version": "0.1.0"
 }
