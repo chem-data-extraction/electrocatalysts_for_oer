@@ -6,9 +6,7 @@
 
 | source_id | pdf_id | Year (approx.) | Path |
 |-----------|--------|----------------|------|
-| paper_green_2018 | green_2018_thrombin_aptamer | 2018 | data/raw/pdf/ |
-| paper_lee_2020 | lee_2020_multiplex_panel | 2020 | data/raw/pdf/ |
-| paper_kim_2015 | kim_2015_lysozyme_aptamer | 2015 | data/raw/pdf/ |
+| acs_catalysis | reier2012 | 2012 | data/raw/pdf/reier2012.pdf |
 
 ## Why these PDFs were selected
 

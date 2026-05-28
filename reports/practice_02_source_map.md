@@ -43,13 +43,13 @@
 | `aggregators` | Websites that compile catalyst properties. | Not yet identified a reliable one; will be added if found. |
 | `preprint_servers` | ChemRxiv, arXiv. | Used when final published version is behind paywall and author manuscript is not available. |
 
-All sources are recorded in `specs/source_map.json` with a unique `source_id`, `type`, `doi`/`url`, `access_status`, and `priority`.
+All sources are recorded in `specs/source_map.json` with a unique `source_id`, `type`, `doi`/`url`, and `access_status`.
 
 ## Priority sources
 
 We will extract sources in the following order:
 
-1. **Primary research articles with tabulated performance data** (overpotential, Tafel slope, electrolyte, loading clearly given in a table). Highest reliability, lowest extraction effort.
+1. **Primary research articles with tabulated performance data** (Tafel slope, electrolyte, loading clearly given in a table). Highest reliability, lowest extraction effort.
 2. **Benchmarking/comparative studies** (multiple catalysts measured under identical conditions). Provide many records from a single source and help standardise comparisons.
 3. **Highly cited papers** that introduced a widely used catalyst (e.g., NiFe LDH, BSCF perovskite). They define baseline performance and are often referenced.
 4. **Supplementary materials** of the above – if the main text lacks numeric η values but the SI contains tables, we extract from SI.
@@ -85,9 +85,6 @@ All records in `source_map.json` will carry the fields `access_status`, `access_
 **Duplicates within a single paper:**
 - If the same measurement appears in both a table and a figure, use the table value (less ambiguity).
 - If only graphical data is available, digitise once and note the figure number.
-
-**iR‑compensation differences:**
-- Overpotential values are strongly affected by iR‑compensation. We record the `ir_compensation` field exactly (e.g., “100%”, “95%”, “none”). In later analysis, we will either filter by compensation level or treat it as a feature.
 
 **Review paper tables:**
 - We **do not** create records directly from review tables. The review is only a signpost; we locate the original article and extract data from it. If the original is inaccessible, we may store the data in a “secondary” flag and exclude from primary analysis.
