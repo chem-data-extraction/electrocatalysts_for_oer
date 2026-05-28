@@ -36,20 +36,20 @@ Collect experimentally reported composition, electrolyte, testing conditions, an
 
 The dataset schema (see `specs/dataset_schema.json`) organises fields into five main entities:
 
+- **Meta-data**
+  `source_doi`
+
 - **Catalyst identification and composition**  
-  `catalyst_composition`, `catalyst_class`, `metal_elements`, `primary_metal`, `is_noble_metal`, `is_hybrid`, `carbon_present`, `support_substrate`, `catalyst_loading_mg_per_cm2`, `synthesis_method`, `morphology`
+  `catalyst_composition`, `metal_elements`, `primary_metal`, `is_noble_metal`, `is_hybrid`, `carbon_present`
 
 - **Electrolyte and environment**  
-  `electrolyte_type`, `electrolyte_composition`, `electrolyte_concentration_mol_L`, `pH`, `temperature_C`
+  `pH`
 
 - **Testing conditions**  
-  `ir_compensation`, `counter_electrode`, `reference_electrode`, `potential_vs_RHE`, `working_electrode_geometric_area_cm2`, `scan_rate_mV_s`
+  `potential_vs_RHE`
 
 - **Performance metrics**  
-  `overpotential_eta10_mV` (primary), `overpotential_eta100_mV`, `tafel_slope_mV_dec`, `mass_activity_A_g`, `specific_activity_mA_cm2_ECSA`, `TOF_per_s`, `exchange_current_density_A_cm2`, `faradaic_efficiency_percent`
-
-- **Stability**  
-  `stability_test_type`, `stability_test_duration_h`, `stability_metric_type`, `stability_value`
+  `exchange_current_density_A_cm2`
 
 All fields are documented in the schema with types, required/optional flags, and allowed values (enums). The mandatory fields for a valid record are: `source_doi`, `catalyst_composition`, `catalyst_class`, `electrolyte_type`, `electrolyte_composition`, `ir_compensation`, `potential_vs_RHE`, and `overpotential_eta10_mV`.
 
