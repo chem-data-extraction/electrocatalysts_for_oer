@@ -1,3 +1,7 @@
-record_id,source_id,pdf_id,page,aptamer_sequence,target_name,target_type,measurement_type,measurement_value,measurement_unit,assay_method,extraction_confidence,extraction_notes
-rec_green_2018_001,paper_green_2018,green_2018_thrombin_aptamer,4,GGTTGGTGTGGTTGG,Thrombin,serine protease,Kd,0.5,nM,SPR,high,Table 2 row 1
-rec_kim_2015_001,paper_kim_2015,kim_2015_lysozyme_aptamer,7,ACCTGGNNNNATGGGT,Lysozyme,enzyme,Kd,12,nM,fluorescence anisotropy,medium,Table 1; sequence from supplementary
+source_doi,catalyst_composition,metal_elements,primary_metal,is_noble_metal,is_hybrid,carbon_present,electrolyte_type,electrolyte_composition,pH,temperature_C,potential_vs_RHE,tafel_slope_mV_dec,stability_value,catalyst_form,notes
+10.1021/cs3003098,Ru bulk metal,['Ru'],Ru,True,False,False,acidic,0.1 M HClO4,1.0,25.0,1.449,44.0,,bulk,
+10.1021/cs3003098,Ru nanoparticles supported on Vulcan XC 72R carbon,['Ru'],Ru,True,False,True,acidic,0.1 M HClO4,1.0,25.0,1.504,,,nanoparticles,
+10.1021/cs3003098,Ir bulk metal,['Ir'],Ir,True,False,False,acidic,0.1 M HClO4,1.0,25.0,1.551,63.0,,bulk,
+10.1021/cs3003098,Ir nanoparticles supported on Vulcan XC 72R carbon,['Ir'],Ir,True,False,True,acidic,0.1 M HClO4,1.0,25.0,1.563,64.0,,nanoparticles,
+10.1021/cs3003098,Pt bulk metal,['Pt'],Pt,True,False,False,acidic,0.1 M HClO4,1.0,25.0,1.766,145.0,,bulk,
+10.1021/cs3003098,Pt nanoparticles supported on Vulcan XC 72R carbon,['Pt'],Pt,True,False,True,acidic,0.1 M HClO4,1.0,25.0,1.87,210.0,,nanoparticles,

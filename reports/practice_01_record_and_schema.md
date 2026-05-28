@@ -37,32 +37,31 @@ Collect experimentally reported composition, electrolyte, testing conditions, an
 The dataset schema (see `specs/dataset_schema.json`) organises fields into five main entities:
 
 - **Meta-data**
-  `source_doi`
+  `source_doi`, `notes`
 
 - **Catalyst identification and composition**  
   `catalyst_composition`, `metal_elements`, `primary_metal`, `is_noble_metal`, `is_hybrid`, `carbon_present`
 
 - **Electrolyte and environment**  
-  `pH`
+  `electrolyte_type`, `electrolyte_composition`, `pH`
 
 - **Testing conditions**  
-  `potential_vs_RHE`
+  `potential_vs_RHE`, `temperature_C`
 
 - **Performance metrics**  
-  `exchange_current_density_A_cm2`
+  `potential`, `potential_unit`, `tafel_slope_mV_dec`
 
-All fields are documented in the schema with types, required/optional flags, and allowed values (enums). The mandatory fields for a valid record are: `source_doi`, `catalyst_composition`, `catalyst_class`, `electrolyte_type`, `electrolyte_composition`, `ir_compensation`, `potential_vs_RHE`, and `overpotential_eta10_mV`.
+- **Stability**  
+  `stability_value`
+
+All fields are documented in the schema with types, required/optional flags, and allowed values (enums). The mandatory fields for a valid record are: `source_doi`, `catalyst_composition`, `electrolyte_type`, `electrolyte_composition`, `potential_vs_RHE`.
 
 ## Ambiguous cases
 
 | Case | Decision |
 |------|----------|
-| **Multiple η₁₀ values for the same catalyst in one paper** (e.g. different electrolyte concentrations or temperatures) | **Separate records** – each distinct set of testing conditions yields its own row. The `catalyst_composition` and `sample_id_in_source` may repeat, but `electrolyte_composition` and `temperature_C` differ. |
-| **Catalyst loading given as mass on electrode without geometric area** | If the geometric area of the electrode is clearly stated elsewhere (standard disk diameter), calculate `mg/cm²`. If area is unknown, store the raw mass in `notes` and leave `catalyst_loading_mg_per_cm2` empty. |
-| **Stability reported as “no degradation after X hours”** | Set `stability_metric_type` = `"current_retention_percent"` and `stability_value` = 100 (or `overpotential_increase_mV` = 0). Add `stability_test_duration_h`. |
-| **Stability measured by cyclic voltammetry (e.g. 1000 cycles)** | Convert to `stability_test_type` = `"cyclic voltammetry cycling"`. The duration in hours is not directly available – leave `stability_test_duration_h` empty and record the number of cycles in `notes`. Stability value can be current retention % after cycling if reported. |
+| **Multiple potential values for the same catalyst in one paper** (e.g. different electrolyte concentrations or temperatures) | **Separate records** – each distinct set of testing conditions yields its own row. The `catalyst_composition` may repeat, but `electrolyte_composition` and `temperature_conditions` differ. |
 | **Overpotential reported as a range (e.g. “η₁₀ = 280–300 mV”)** | Store the **midpoint** (290 mV) and record the range in `notes` as “original range 280–300 mV”. Alternatively, if the exact value from a curve can be extracted, use that. |
 | **Tafel slope extracted from a figure with poor linearity** | Enter the value as given in the paper; if it is clearly ambiguous (two different slopes), create a note. No extrapolation by curators. |
 | **The same catalyst appears in two different publications (duplicate)** | Both rows are kept initially. Deduplication rules (e.g. if identical composition and electrolyte) will be defined in Practice 5; we may keep the record with more complete testing conditions or average values after manual review. |
-| **Paper reports performance only as overpotential at 50 mA/cm², not 10 mA/cm²** | `overpotential_eta10_mV` is mandatory – if absent, the record cannot be completed. We may note the available overpotential in `overpotential_at_other_current_density` and `current_density_for_overpotential_mA_cm2`, but the record will be flagged as incomplete. In the future we might relax the requirement if enough data exists at other current densities. |
 | **Hybrid catalyst contains carbon in acidic electrolyte** | Record all fields as usual. The `carbon_present` flag will help later analysis to filter or study degradation due to carbon corrosion. If stability is poor, it will be reflected in `stability_value`. |
