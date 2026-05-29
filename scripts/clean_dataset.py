@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Clean and normalize merged or extracted records into the final dataset."""
+"""Clean and normalize merged OER records into the final dataset.
+
+Drops rows that miss any required field (as declared in
+specs/dataset_schema.json).  Reads from interim/merged_records.csv
+and writes the cleaned dataset to processed/dataset.csv.
+"""
 
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -11,107 +17,166 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 
 MERGED_PATH = ROOT / "data/interim/merged_records.csv"
-PDF_CSV = ROOT / "data/extracted/pdf_extracted_records.csv"
-WEB_CSV = ROOT / "data/extracted/web_extracted_records.csv"
 SCHEMA_PATH = ROOT / "specs/dataset_schema.json"
 DATASET_PATH = ROOT / "data/processed/dataset.csv"
 
+# Tokens that should be treated as missing values
 MISSING_TOKENS = {"", "na", "n/a", "none", "null", "-", "nan"}
 
 
-def normalize_sequence(seq: object) -> str:
-    if pd.isna(seq):
-        return ""
-    text = str(seq).upper().strip()
-    return "".join(c for c in text if c in "ACGTU")
+# ---------------------------------------------------------------------------
+# helpers
+# ---------------------------------------------------------------------------
+def load_schema() -> dict:
+    """Return the full schema dictionary."""
+    with SCHEMA_PATH.open(encoding="utf-8") as f:
+        return json.load(f)
 
 
-def normalize_missing_values(value: object):
+def get_required_fields(schema: dict) -> list[str]:
+    """List of field names that have 'required': true."""
+    return [f["name"] for f in schema["fields"] if f.get("required", False)]
+
+
+def is_missing(value: object) -> bool:
+    """Return True if value is considered missing (NaN, None, or a token)."""
     if pd.isna(value):
-        return None
+        return True
+    if isinstance(value, (int, float)):
+        return False
     text = str(value).strip().lower()
     if text in MISSING_TOKENS:
+        return True
+    return text == ""
+
+
+def normalize_string(value: object) -> str | None:
+    """Return a stripped string or None if missing."""
+    if pd.isna(value):
         return None
-    return value
+    text = str(value).strip()
+    if text.lower() in MISSING_TOKENS:
+        return None
+    return text
 
 
-def normalize_measurement_to_nm(value: object, unit: object):
-    if pd.isna(value) or value == "" or value is None:
+def coerce_boolean(value: object) -> bool | None:
+    """Convert various representations to a boolean (True/False) or None."""
+    if pd.isna(value):
+        return None
+    if isinstance(value, bool):
+        return value
+    text = str(value).strip().lower()
+    if text in ("true", "1", "yes", "t"):
+        return True
+    if text in ("false", "0", "no", "f"):
+        return False
+    return None
+
+
+def coerce_float(value: object) -> float | None:
+    """Try to convert value to float, return None on failure."""
+    if pd.isna(value):
         return None
     try:
-        num = float(value)
-    except (TypeError, ValueError):
+        return float(value)
+    except (ValueError, TypeError):
         return None
-    if pd.isna(unit):
-        return None
-    u = str(unit).strip().lower()
-    factors = {
-        "nm": 1.0,
-        "nanomolar": 1.0,
-        "pm": 0.001,
-        "picomolar": 0.001,
-        "μm": 1000.0,
-        "um": 1000.0,
-        "micromolar": 1000.0,
-        "µm": 1000.0,
-        "m": 1e9,
-        "molar": 1e9,
-    }
-    factor = factors.get(u)
-    if factor is None:
-        return None
-    return num * factor
 
 
-def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+# ---------------------------------------------------------------------------
+# cleaning pipeline
+# ---------------------------------------------------------------------------
+def clean_dataframe(df: pd.DataFrame, required_fields: list[str]) -> pd.DataFrame:
+    """
+    Clean the merged DataFrame:
+      1. Ensure a unique 'record_id' column exists.
+      2. Drop rows where any required field is missing.
+      3. Normalise data types and whitespace.
+      4. Remove duplicate records based on 'record_id'.
+    Returns a new DataFrame.
+    """
     out = df.copy()
-    if "aptamer_sequence" in out.columns:
-        out["aptamer_sequence"] = out["aptamer_sequence"].map(normalize_sequence)
-    for col in out.columns:
-        if col in ("record_id", "aptamer_sequence"):
-            continue
-        out[col] = out[col].map(normalize_missing_values)
-    if "measurement_value" in out.columns and "measurement_unit" in out.columns:
-        out["normalized_value_nm"] = [
-            normalize_measurement_to_nm(v, u)
-            for v, u in zip(out["measurement_value"], out["measurement_unit"])
-        ]
+
+    # ---- step 1: drop records with missing required fields ----
+    mask_valid = pd.Series(True, index=out.index)
+    for field in required_fields:
+        if field not in out.columns:
+            mask_valid = False
+            break
+        missing_mask = out[field].apply(is_missing)
+        mask_valid &= ~missing_mask
+    out = out.loc[mask_valid].copy()
+
+    if out.empty:
+        return out
+
+    # ---- step 2: string normalisation ----
+    string_cols = ["source_doi", "catalyst_composition", "electrolyte_type",
+                   "electrolyte_composition", "ir_compensation", "notes",
+                   "support_substrate", "record_id", "primary_metal"]
+    for col in string_cols:
+        if col in out.columns:
+            out[col] = out[col].map(normalize_string)
+
+    if "metal_elements" in out.columns:
+        out["metal_elements"] = out["metal_elements"].map(
+            lambda x: normalize_string(x) if not isinstance(x, list) else str(x)
+        )
+
+    # ---- step 3: boolean & numeric coercions ----
+    if "potential_vs_RHE" in out.columns:
+        out["potential_vs_RHE"] = out["potential_vs_RHE"].map(coerce_boolean)
+
+    for col in ("overpotential_eta10_mV", "tafel_slope_mV_dec",
+                "stability_value", "pH", "temperature_C"):
+        if col in out.columns:
+            out[col] = out[col].map(coerce_float)
+
+    for col in ("is_noble_metal", "is_hybrid", "carbon_present"):
+        if col in out.columns:
+            out[col] = out[col].map(coerce_boolean)
+
+    # ---- step 4: deduplicate by record_id ----
     if "record_id" in out.columns:
         out = out.drop_duplicates(subset=["record_id"], keep="first")
+
     return out
 
 
-def load_schema_columns() -> list[str]:
-    with SCHEMA_PATH.open(encoding="utf-8") as f:
-        schema = json.load(f)
-    return [field["name"] for field in schema["fields"]]
-
-
-def load_input_frame() -> pd.DataFrame:
-    if MERGED_PATH.is_file():
-        return pd.read_csv(MERGED_PATH)
-    import importlib.util
-
-    build_path = ROOT / "scripts" / "build_dataset.py"
-    spec = importlib.util.spec_from_file_location("build_dataset", build_path)
-    if spec is None or spec.loader is None:
-        raise ImportError(f"Cannot load {build_path}")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.build()
-
-
+# ---------------------------------------------------------------------------
 def main() -> None:
-    df = load_input_frame()
-    columns = load_schema_columns()
-    for col in columns:
+    # load schema
+    schema = load_schema()
+    all_columns = [f["name"] for f in schema["fields"]]
+    required_fields = get_required_fields(schema)
+
+    # load merged data
+    if not MERGED_PATH.is_file():
+        print(f"ERROR: {MERGED_PATH} not found. Run build_dataset.py first.",
+              file=sys.stderr)
+        sys.exit(1)
+    df = pd.read_csv(MERGED_PATH)
+
+    # ensure all schema columns exist
+    schema_cols = all_columns.copy()
+    for col in schema_cols:
         if col not in df.columns:
             df[col] = None
-    df = df[columns]
-    cleaned = clean_dataframe(df)
+    df = df[schema_cols]
+
+    # clean
+    cleaned = clean_dataframe(df, required_fields)
+
+    # keep record_id in final output (even if not in schema, it's useful)
+    if "record_id" not in cleaned.columns:
+        cleaned["record_id"] = None
+
+    # write final dataset
     DATASET_PATH.parent.mkdir(parents=True, exist_ok=True)
     cleaned.to_csv(DATASET_PATH, index=False)
     print(f"Wrote {len(cleaned)} cleaned rows to {DATASET_PATH.relative_to(ROOT)}")
+    print(f"Dropped {len(df) - len(cleaned)} rows due to missing required fields.")
 
 
 if __name__ == "__main__":

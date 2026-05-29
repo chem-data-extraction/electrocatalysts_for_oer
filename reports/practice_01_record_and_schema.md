@@ -54,7 +54,7 @@ The dataset schema (see `specs/dataset_schema.json`) organises fields into five 
 - **Stability**  
   `stability_value`
 
-All fields are documented in the schema with types, required/optional flags, and allowed values (enums). The mandatory fields for a valid record are: `source_doi`, `catalyst_composition`, `electrolyte_type`, `electrolyte_composition`, `potential_vs_RHE`.
+All fields are documented in the schema with types, required/optional flags, and allowed values (enums). The mandatory fields for a valid record are: `source_doi`, `metal_elements`, `primary_metal`, `catalyst_composition`, `electrolyte_type`, `electrolyte_composition`, `ir_compensation`, `potential_vs_RHE`.
 
 ## Ambiguous cases
 

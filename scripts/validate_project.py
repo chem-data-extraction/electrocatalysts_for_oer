@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
+from typing import List, Tuple
 
 import pandas as pd
 
@@ -94,30 +95,87 @@ def check_record_id(df: pd.DataFrame) -> list[str]:
     return issues
 
 
-def check_source_id(df: pd.DataFrame, source_map: dict) -> tuple[list[str], list[str]]:
-    errors: list[str] = []
-    warnings: list[str] = []
-    valid_ids = source_ids_from_map(source_map)
+def _collect_dois_from_source_map(source_map: dict) -> set[str]:
+    """
+    Извлекает все DOI из source_map.json.
+    Обходит все группы (scientific_papers, databases и т.д.),
+    собирает значения ключа 'doi' у каждой записи.
+    """
+    dois: set[str] = set()
+    groups = source_map.get("source_groups", {})
+    for group_name, entries in groups.items():
+        if not isinstance(entries, list):
+            continue
+        for entry in entries:
+            if isinstance(entry, dict) and "doi" in entry:
+                doi = str(entry["doi"]).strip()
+                if doi:
+                    dois.add(doi)
+    return dois
 
-    if df["source_id"].isna().any() or (df["source_id"].astype(str).str.strip() == "").any():
-        errors.append("source_id contains null or empty values")
 
-    unknown = set(df["source_id"].dropna().astype(str)) - valid_ids
+def check_source_doi(df: pd.DataFrame, source_map: dict) -> Tuple[List[str], List[str]]:
+    """
+    Проверяет столбец source_doi в DataFrame:
+    - ошибки: отсутствие колонки, пустые значения
+    - предупреждения: DOI отсутствует в source_map
+    """
+    errors: List[str] = []
+    warnings: List[str] = []
+
+    if "source_doi" not in df.columns:
+        errors.append("Колонка 'source_doi' отсутствует в DataFrame")
+        return errors, warnings
+
+    # Проверка на пустые значения
+    null_mask = df["source_doi"].isna() | (df["source_doi"].astype(str).str.strip() == "")
+    if null_mask.any():
+        bad_indices = sorted(df.index[null_mask].tolist())
+        errors.append(f"source_doi содержит пустые значения в строках: {bad_indices}")
+
+    # Сбор допустимых DOI из source_map
+    valid_dois = _collect_dois_from_source_map(source_map)
+
+    if not valid_dois:
+        warnings.append("Не найдено ни одного DOI в source_map")
+        return errors, warnings
+
+    # Сравнение с DOI из датасета
+    present_dois = set(df["source_doi"].dropna().astype(str).str.strip())
+    unknown = present_dois - valid_dois
     if unknown:
-        warnings.append(f"source_id not in source map (warning): {sorted(unknown)}")
+        warnings.append(f"DOI не найдены в source_map: {sorted(unknown)}")
+
     return errors, warnings
 
 
 def check_measurement_value(df: pd.DataFrame) -> list[str]:
+    """
+    Проверяет все колонки, объявленные в dataset_schema.json с типом 'number',
+    на возможность приведения значения к float.
+    Возвращает список строк с описанием проблем.
+    """
+    import json
+    from pathlib import Path
+
+    schema_path = Path(__file__).resolve().parents[1] / "specs/dataset_schema.json"
+    with open(schema_path, encoding="utf-8") as f:
+        schema = json.load(f)
+
+    numeric_fields = [field["name"] for field in schema["fields"] if field["type"] == "number"]
     issues = []
-    col = df["measurement_value"]
-    for idx, val in col.items():
-        if pd.isna(val) or val == "":
+
+    for col in numeric_fields:
+        if col not in df.columns:
             continue
-        try:
-            float(val)
-        except (TypeError, ValueError):
-            issues.append(f"measurement_value not numeric at row {idx}: {val!r}")
+        for idx, val in df[col].items():
+            if pd.isna(val) or val == "" or val is None:
+                continue
+            try:
+                float(val)
+            except (TypeError, ValueError):
+                issues.append(f"{col} not numeric at row {idx}: {val!r}")
+
     return issues
 
 
@@ -152,7 +210,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], list[str]]:
     errors.extend(check_record_id(df))
     errors.extend(check_measurement_value(df))
 
-    src_errors, src_warnings = check_source_id(df, source_map)
+    src_errors, src_warnings = check_source_doi(df, source_map)
     errors.extend(src_errors)
     warnings.extend(src_warnings)
     warnings.extend(check_extraction_confidence(df))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Placeholder web extraction driver.
+Web extraction does not provided.
 
 Real implementation: use requests + BeautifulSoup (or Playwright for JS pages)
 following parser_plan in specs/web_extraction_manifest.json.
