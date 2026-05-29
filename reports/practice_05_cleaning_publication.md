@@ -33,7 +33,7 @@ Row count, targets covered, date built, path: `data/processed/dataset.csv`.
 
 - [+] `dataset.csv` matches `specs/dataset_schema.json`
 - [+] All `source_id` values documented in source map
-- [ ] LICENSE replaced (not placeholder)
-- [ ] `CITATION.cff` completed
-- [ ] `dataset_card.md` updated
+- [+] LICENSE replaced (not placeholder)
+- [+] `CITATION.cff` completed
+- [+] `dataset_card.md` updated
 - [ ] `reports/final_report.md` complete
