@@ -43,7 +43,7 @@
 | `aggregators` | Websites that compile catalyst properties. | Not yet identified a reliable one; will be added if found. |
 | `preprint_servers` | ChemRxiv, arXiv. | Used when final published version is behind paywall and author manuscript is not available. |
 
-All sources are recorded in `specs/source_map.json` with a unique `source_id`, `type`, `doi`/`url`, and `access_status`.
+All sources are recorded in `specs/source_map.json` with a unique `source_id`, `doi`/`url`, and `access_status`.
 
 ## Priority sources
 
@@ -68,7 +68,7 @@ All records in `source_map.json` will carry the fields `access_status`, `access_
 
 ## Expected data types
 
-- **Structured tables (HTML/PDF text):** Numeric data for η, Tafel slope, electrolyte, loading. Copy‑paste or PDF text extraction (e.g., `tabula`).  
+- **Structured tables (HTML/PDF text):** Numeric data for η, Tafel slope, electrolyte, loading. Copy‑paste or PDF text extraction (e.g., `pdfplumber`).  
 - **Excel/CSV supplementary files:** Directly importable.  
 - **LSV curves (figures):** If no numeric η is reported, digitise the curve to obtain overpotential at 10, 100 mA cm⁻² and current density at 1.55 V vs RHE. Mark records with `digitized: true` in `notes`.  
 - **Stability data:** Chronopotentiometric curves → digitise final overpotential or use reported Δη. Number of cycles from CV stability tests → store as string in `notes` and extract retention percentage if given.  

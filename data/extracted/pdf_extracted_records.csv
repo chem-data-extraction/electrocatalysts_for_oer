@@ -1,7 +1,23 @@
-source_doi,catalyst_composition,metal_elements,primary_metal,is_noble_metal,is_hybrid,carbon_present,electrolyte_type,electrolyte_composition,pH,temperature_C,potential_vs_RHE,tafel_slope_mV_dec,stability_value,catalyst_form,notes
-10.1021/cs3003098,Ru bulk metal,['Ru'],Ru,True,False,False,acidic,0.1 M HClO4,1.0,25.0,1.449,44.0,,bulk,
-10.1021/cs3003098,Ru nanoparticles supported on Vulcan XC 72R carbon,['Ru'],Ru,True,False,True,acidic,0.1 M HClO4,1.0,25.0,1.504,,,nanoparticles,
-10.1021/cs3003098,Ir bulk metal,['Ir'],Ir,True,False,False,acidic,0.1 M HClO4,1.0,25.0,1.551,63.0,,bulk,
-10.1021/cs3003098,Ir nanoparticles supported on Vulcan XC 72R carbon,['Ir'],Ir,True,False,True,acidic,0.1 M HClO4,1.0,25.0,1.563,64.0,,nanoparticles,
-10.1021/cs3003098,Pt bulk metal,['Pt'],Pt,True,False,False,acidic,0.1 M HClO4,1.0,25.0,1.766,145.0,,bulk,
-10.1021/cs3003098,Pt nanoparticles supported on Vulcan XC 72R carbon,['Pt'],Pt,True,False,True,acidic,0.1 M HClO4,1.0,25.0,1.87,210.0,,nanoparticles,
+source_doi,catalyst_composition,metal_elements,primary_metal,is_noble_metal,is_hybrid,carbon_present,support_substrate,electrolyte_type,electrolyte_composition,pH,temperature_C,ir_compensation,potential_vs_RHE,overpotential_eta10_mV,tafel_slope_mV_dec,stability_value,notes
+10.1021/cs3003098,Ru bulk metal,['Ru'],Ru,True,False,False,glassy carbon,acidic,0.1 M HClO4,1.0,25.0,95%,1.449,,44.0,,"potential at 0.5 mA/mol active sites, not eta10"
+10.1021/cs3003098,Ru nanoparticles on Vulcan XC 72R,['Ru'],Ru,True,False,True,glassy carbon,acidic,0.1 M HClO4,1.0,25.0,95%,1.504,,,,"potential at 0.5 mA/mol active sites, not eta10"
+10.1021/cs3003098,Ir bulk metal,['Ir'],Ir,True,False,False,glassy carbon,acidic,0.1 M HClO4,1.0,25.0,95%,1.551,,63.0,,"potential at 0.5 mA/mol active sites, not eta10"
+10.1021/cs3003098,Ir nanoparticles on Vulcan XC 72R,['Ir'],Ir,True,False,True,glassy carbon,acidic,0.1 M HClO4,1.0,25.0,95%,1.563,,64.0,,"potential at 0.5 mA/mol active sites, not eta10"
+10.1021/cs3003098,Pt bulk metal,['Pt'],Pt,True,False,False,glassy carbon,acidic,0.1 M HClO4,1.0,25.0,95%,1.766,,145.0,,"potential at 0.5 mA/mol active sites, not eta10"
+10.1021/cs3003098,Pt nanoparticles on Vulcan XC 72R,['Pt'],Pt,True,False,True,glassy carbon,acidic,0.1 M HClO4,1.0,25.0,95%,1.87,,210.0,,"potential at 0.5 mA/mol active sites, not eta10"
+10.1021/ja510442p,Ru-(a),['Ru'],Ru,True,False,False,glassy carbon,acidic,1 M H2SO4,0.3,25.0,85%,True,280.0,,60.0,η at 24h = 820 mV; RF = 71.0
+10.1021/ja510442p,Ir,['Ir'],Ir,True,False,False,glassy carbon,acidic,1 M H2SO4,0.3,25.0,85%,True,340.0,,19.99999999999996,η at 24h = 440 mV; RF = 160.0
+10.1021/ja510442p,Co-(b),['Co'],Co,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,410.0,,-9.999999999999954,η at 24h = 810 mV; RF = 11.0
+10.1021/ja510442p,CoFe,"['Fe', 'Co']",Fe,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,350.0,,10.000000000000009,η at 24h = 360 mV; RF = 10.0
+10.1021/ja510442p,Ni-(b),['Ni'],Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,470.0,,0.0,η at 24h = 1230 mV; RF = 2.0
+10.1021/ja510442p,NiCo-(b),"['Ni', 'Co']",Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,420.0,,0.0,η at 24h = 1170 mV; RF = 3.0
+10.1021/ja510442p,NiCo-(c),"['Ni', 'Co']",Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,380.0,,-30.00000000000003,η at 24h = 340 mV; RF = 9.0
+10.1021/ja510442p,NiCr,['Ni'],Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,390.0,,0.0,η at 24h = 790 mV; RF = 9.0
+10.1021/ja510442p,NiFe-(b),"['Ni', 'Fe']",Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,340.0,,29.99999999999997,η at 24h = 370 mV; RF = 4.0
+10.1021/ja510442p,NiMoFe-(b),"['Ni', 'Fe']",Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,340.0,,-10.000000000000009,η at 24h = 320 mV; RF = 9.0
+10.1021/ja510442p,NiZn-(b),"['Ni', 'Zn']",Ni,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,360.0,,-10.000000000000009,η at 24h = 340 mV; RF = 200.0
+10.1021/ja510442p,Ru-(a),['Ru'],Ru,True,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,290.0,,30.00000000000003,η at 24h = 360 mV; RF = 70.0
+10.1021/ja510442p,m,[],,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,2000.0,,0.0,η at 24h = 0 mV; RF = 0.0
+10.1021/ja510442p,M,[],,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,1000.0,,8000.0,η at 24h = 9000 mV; RF = 2.0
+10.1021/ja510442p,C,[],,False,False,False,glassy carbon,alkaline,1 M NaOH,14.0,25.0,85%,True,6000.0,,-4000.0,η at 24h = 0 mV; RF = 1.0
+10.1126/science.aaf5050,IrOx/SrIrO3,"['Ir', 'Sr']",Ir,True,False,False,Ti foil,acidic,0.5 M H2SO4,0.3,25.0,100%,True,270.0,40.0,10.0,Values from abstract and main text; SI may provide more precise numbers.

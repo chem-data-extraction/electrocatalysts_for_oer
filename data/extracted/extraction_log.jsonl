@@ -1,4 +1,6 @@
-{"timestamp": "2026-02-01T10:15:00Z", "step": "pdf_extraction", "source_id": "paper_green_2018", "status": "template", "tool": "extract_pdf.py", "output": "data/extracted/pdf_extracted_records.csv", "issue": "Placeholder run; add PyMuPDF/pdfplumber for real tables"}
-{"timestamp": "2026-02-01T11:30:00Z", "step": "web_extraction", "source_id": "db_aptagen", "status": "template", "tool": "extract_web.py", "output": "data/extracted/web_extracted_records.csv", "issue": "Placeholder snapshot only; implement BeautifulSoup parser"}
-{"timestamp": "2026-02-05T09:00:00Z", "step": "build_dataset", "source_id": "", "status": "ok", "tool": "build_dataset.py", "output": "data/processed/dataset.csv", "issue": ""}
-{"timestamp": "2026-05-28T18:18:04.221978Z", "step": "pdf_extraction", "source_id": "acs_catalysis", "status": "ok", "tool": "extract_pdf.py", "output": "data/extracted/pdf_extracted_records.csv", "issue": ""}
+{"timestamp": "2026-05-29T16:32:46.099016Z", "step": "pdf_extraction", "source_id": "paper_reier_2012", "status": "ok", "records_extracted": 6, "output": "data/extracted/pdf_extracted_records.csv"}
+{"timestamp": "2026-05-29T16:32:49.419114Z", "step": "pdf_extraction", "source_id": "paper_mccrory_2015", "status": "ok", "records_extracted": 15, "output": "data/extracted/pdf_extracted_records.csv"}
+{"timestamp": "2026-05-29T16:32:51.889003Z", "step": "pdf_extraction", "source_id": "paper_seitz_2016", "status": "ok", "records_extracted": 1, "output": "data/extracted/pdf_extracted_records.csv"}
+{"timestamp": "2026-05-29T17:07:20.184252Z", "step": "pdf_extraction", "source_id": "paper_reier_2012", "status": "ok", "records_extracted": 6, "output": "data/extracted/pdf_extracted_records.csv"}
+{"timestamp": "2026-05-29T17:07:23.636521Z", "step": "pdf_extraction", "source_id": "paper_mccrory_2015", "status": "ok", "records_extracted": 15, "output": "data/extracted/pdf_extracted_records.csv"}
+{"timestamp": "2026-05-29T17:07:26.332180Z", "step": "pdf_extraction", "source_id": "paper_seitz_2016", "status": "ok", "records_extracted": 1, "output": "data/extracted/pdf_extracted_records.csv"}

@@ -5,65 +5,62 @@
   "source_groups": {
     "scientific_papers": [
       {
-        "source_id": "acs_catalysis",
+        "source_id": "paper_reier_2012",
         "name": "Electrocatalytic Oxygen Evolution Reaction (OER) on Ru, Ir, and Pt Catalysts: A Comparative Study of Nanoparticles and Bulk Materials",
         "source_type": "journal_article",
         "url": "https://doi.org/10.1021/cs3003098",
         "doi": "10.1021/cs3003098",
         "access_status": "institutional",
         "access_method": "publisher PDF via university VPN",
-        "access_date": "2026-05-28",
+        "access_date": "2026-05-29",
         "license": "ACS AuthorChoice",
         "expected_data_volume": "low",
         "estimated_records": 6,
         "available_data_types": ["tables", "text"],
         "expected_fields": ["source_doi","catalyst_composition","metal_elements","primary_metal","is_noble_metal","is_hybrid","carbon_present","electrolyte_type","electrolyte_composition","pH","temperature_C","potential_vs_RHE","tafel_slope_mV_dec","catalyst_form"],
         "extraction_strategy": {
-          "recommended_method": "pdfplumber table extraction from main text"
+          "recommended_method": "pdfplumber table extraction and extraction from main text"
         }
-      }
-    ],
-    "supplementary_materials": [
+      },
       {
-        "source_id": "royal_society_of_chemistry",
-        "name": "Predicting electronic structure properties of transition metal complexes with neural networks",
+        "source_id": "paper_mccrory_2015",
+        "name": "Benchmarking Hydrogen Evolving Reaction and Oxygen Evolving Reaction Electrocatalysts for Solar Water Splitting Devices",
         "source_type": "journal_article",
-        "url": "https://doi.org/10.1039/c7sc01247k",
-        "doi": "10.1039/c7sc01247k",
-        "access_status": "open_access",
-        "access_method": "publisher PDF via university VPN",
-        "access_date": "2026-05-28",
-        "license": "CC-BY",
+        "url": "https://pubs.acs.org/doi/10.1021/ja510442p",
+        "doi": "10.1021/ja510442p",
+        "access_status": "restricted",
+        "access_method": "publisher PDF via Sci-Hub",
+        "access_date": "2026-05-29",
+        "license": "ACS AuthorChoice",
         "expected_data_volume": "high",
-        "estimated_records": 6,
-        "available_data_types": ["csv"],
+        "estimated_records": 15,
+        "available_data_types": ["tables", "text"],
         "expected_fields": ["source_doi","catalyst_composition","metal_elements","primary_metal","is_noble_metal","is_hybrid","carbon_present","electrolyte_type","electrolyte_composition","pH","temperature_C","potential_vs_RHE","tafel_slope_mV_dec","catalyst_form"],
         "extraction_strategy": {
-          "recommended_method": "table extraction from csv"
+          "recommended_method": "pdfplumber table extraction"
+        }
+      },
+      {
+        "source_id": "paper_seitz_2016  ",
+        "name": "A highly active and stable IrO x /SrIrO 3 catalyst for the oxygen evolution reaction",
+        "source_type": "journal_article",
+        "url": "https://www.science.org/doi/10.1126/science.aaf5050",
+        "doi": "10.1126/science.aaf5050",
+        "access_status": "restricted",
+        "access_method": "publisher PDF via Sci-Hub",
+        "access_date": "2026-05-29",
+        "license": "ACS AuthorChoice",
+        "expected_data_volume": "low",
+        "estimated_records": 1,
+        "available_data_types": ["text"],
+        "expected_fields": ["source_doi","catalyst_composition","metal_elements","primary_metal","is_noble_metal","is_hybrid","carbon_present","electrolyte_type","electrolyte_composition","pH","temperature_C","potential_vs_RHE","tafel_slope_mV_dec","catalyst_form"],
+        "extraction_strategy": {
+          "recommended_method": "pdfplumber main text extraction"
         }
       }
     ],
-    "databases": [
-      {
-        "source_id": "db_nrel_matdb_oer",
-        "name": "NREL Materials Database – OER electrocatalyst entries",
-        "source_type": "database",
-        "url": "https://materials.nrel.gov/oer",
-        "doi": "",
-        "access_status": "open_access",
-        "access_method": "web interface download",
-        "access_date": "2026-06-05",
-        "license": "public domain",
-        "expected_data_volume": "low",
-        "estimated_records": 80,
-        "available_data_types": ["csv"],
-        "expected_fields": ["formula", "overpotential_10mAcm2", "electrolyte_concentration"],
-        "extraction_strategy": {
-          "recommended_method": "download CSV; align field names with schema"
-        },
-        "notes": "Limited to non‑precious metal oxides; may need manual DOI lookup."
-      }
-    ],
+    "supplementary_materials": [],
+    "databases": [],
     "aggregators": [],
     "github_repositories": [],
     "ml_datasets": []

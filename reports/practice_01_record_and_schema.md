@@ -43,13 +43,13 @@ The dataset schema (see `specs/dataset_schema.json`) organises fields into five 
   `catalyst_composition`, `metal_elements`, `primary_metal`, `is_noble_metal`, `is_hybrid`, `carbon_present`
 
 - **Electrolyte and environment**  
-  `electrolyte_type`, `electrolyte_composition`, `pH`
+  `electrolyte_type`, `electrolyte_composition`, `pH`, `support_substrate`
 
 - **Testing conditions**  
-  `potential_vs_RHE`, `temperature_C`
+  `potential_vs_RHE`, `temperature_C`, `ir_compensation`
 
 - **Performance metrics**  
-  `potential`, `potential_unit`, `tafel_slope_mV_dec`
+  `overpotential_eta10_mV`, `tafel_slope_mV_dec`
 
 - **Stability**  
   `stability_value`
@@ -60,7 +60,7 @@ All fields are documented in the schema with types, required/optional flags, and
 
 | Case | Decision |
 |------|----------|
-| **Multiple potential values for the same catalyst in one paper** (e.g. different electrolyte concentrations or temperatures) | **Separate records** – each distinct set of testing conditions yields its own row. The `catalyst_composition` may repeat, but `electrolyte_composition` and `temperature_conditions` differ. |
+| **Multiple potential values for the same catalyst in one paper** (e.g. different electrolyte concentrations or temperatures) | **Separate records** – each distinct set of testing conditions yields its own row. The `catalyst_composition` may repeat, but `electrolyte_composition` and `temperature_C` differ. |
 | **Overpotential reported as a range (e.g. “η₁₀ = 280–300 mV”)** | Store the **midpoint** (290 mV) and record the range in `notes` as “original range 280–300 mV”. Alternatively, if the exact value from a curve can be extracted, use that. |
 | **Tafel slope extracted from a figure with poor linearity** | Enter the value as given in the paper; if it is clearly ambiguous (two different slopes), create a note. No extrapolation by curators. |
 | **The same catalyst appears in two different publications (duplicate)** | Both rows are kept initially. Deduplication rules (e.g. if identical composition and electrolyte) will be defined in Practice 5; we may keep the record with more complete testing conditions or average values after manual review. |

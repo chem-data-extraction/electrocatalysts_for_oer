@@ -3,7 +3,7 @@
   "output_records_file": "data/extracted/pdf_extracted_records.csv",
   "input_sources": [
     {
-      "source_id": "acs_catalysis",
+      "source_id": "paper_reier_2012",
       "pdf_id": "reier2012",
       "pdf_path": "data/raw/pdf/reier2012.pdf",
       "source_url": "https://doi.org/10.1021/cs3003098",
@@ -11,6 +11,26 @@
       "selection_reason": "Paper contains experimental data for Ru, Ir, and Pt catalysts",
       "expected_content": "Experimental data of Ru, Ir, and Pt bulk and nanoparticles",
       "extraction_methods": ["pdfplumber", "manual_verification"]
+    },
+    {
+      "source_id": "paper_mccrory_2015",
+      "pdf_id": "mccrory2015",
+      "pdf_path": "data/raw/pdf/mccrory2015.pdf",
+      "source_url": "https://pubs.acs.org/doi/10.1021/ja510442p",
+      "doi": "10.1021/ja510442p",
+      "selection_reason": "Benchmark that contains CoOx, NiOx, NiFeOx, IrOx, RuOx, etc",
+      "expected_content": "Lots of rows with info of OER",
+      "extraction_methods": ["pdfplumber", "table_extraction"]
+    },
+    {
+      "source_id": "paper_seitz_2016",
+      "pdf_id": "seitz2016",
+      "pdf_path": "data/raw/pdf/seitz2016.pdf",
+      "source_url": "https://www.science.org/doi/10.1126/science.aaf5050",
+      "doi": "10.1126/science.aaf5050",
+      "selection_reason": "Acid electrolyte shown",
+      "expected_content": "Experimental data with acid electrolyte",
+      "extraction_methods": ["pdfplumber"]
     }
   ]
 }
