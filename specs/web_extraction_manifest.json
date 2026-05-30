@@ -1,6 +1,15 @@
 {
   "web_extraction_version": "0.1.0",
-  "output_records_file": "data/extracted/web_extracted_records.csv",
   "script": "scripts/extract_web.py",
-  "input_pages": []
+  "output_records_file": "data/extracted/web_extracted_records.csv",
+  "input_pages": [
+    {
+      "page_id": "db_catalysis_hub",
+      "url": "https://api.catalysis-hub.org/graphql",
+      "source_id": "db_catalysis_hub",
+      "parser_plan": {
+        "method": "graphql"
+      }
+    }
+  ]
 }

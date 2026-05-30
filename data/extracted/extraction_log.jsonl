@@ -4,3 +4,4 @@
 {"timestamp": "2026-05-29T17:07:20.184252Z", "step": "pdf_extraction", "source_id": "paper_reier_2012", "status": "ok", "records_extracted": 6, "output": "data/extracted/pdf_extracted_records.csv"}
 {"timestamp": "2026-05-29T17:07:23.636521Z", "step": "pdf_extraction", "source_id": "paper_mccrory_2015", "status": "ok", "records_extracted": 15, "output": "data/extracted/pdf_extracted_records.csv"}
 {"timestamp": "2026-05-29T17:07:26.332180Z", "step": "pdf_extraction", "source_id": "paper_seitz_2016", "status": "ok", "records_extracted": 1, "output": "data/extracted/pdf_extracted_records.csv"}
+{"timestamp": "2026-05-30T23:15:02.677275Z", "step": "web_extraction", "source_id": "db_catalysis_hub", "status": "ok", "records_extracted": 1900, "output": "data/extracted/web_extracted_records.csv"}

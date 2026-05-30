@@ -41,9 +41,13 @@ Data were extracted with `scripts/extract_pdf.py`, which uses `pdfplumber` for t
 Total extracted records before cleaning: **22**.
 
 ### Web extraction
-Not performed. The placeholder file `data/extracted/web_extracted_records.csv` is empty. The web extraction script and manifest are prepared for future expansion.
+Data were extracted with `scripts/extract_web.py`. Used sources:
 
-Detailed reports for PDF and web extraction are available in Practice 3 and Practice 4 documents (not included here).
+- **Catalysis-hub** - A web-platform for sharing data and software for computational catalysis research! The Surface Reactions database contains thousands of reaction energies and barriers from density functional theory (DFT) calculations on surface systems. Reactions can also be browsed under Contributors and Publications, and under Apps is a selection of computational tools.  
+
+Total extracted records before cleaning: **1900**
+
+Detailed reports for PDF and web extraction are available in Practice 3 and Practice 4 documents.
 
 ## Cleaning and normalization summary
 
@@ -56,7 +60,7 @@ The cleaning pipeline (`scripts/clean_dataset.py`) processes `data/interim/merge
    - Boolean fields (`is_noble_metal`, `is_hybrid`, `carbon_present`, `potential_vs_RHE`) are converted to `True`/`False`/`None`.
    - Numeric fields (`overpotential_eta10_mV`, `tafel_slope_mV_dec`, `stability_value`, `pH`, `temperature_C`) are cast to `float` where possible; non‑convertible values become `None`.
 5. **Deduplication**: `record_id` is generated (if missing) from `source_doi` and `catalyst_composition`, and duplicate records are dropped.
-6. **Output**: 19 cleaned records written to `data/processed/dataset.csv`.
+6. **Output**: 19 cleaned records written to `data/processed/dataset.csv`. All web records was dropped (not enough information).
 
 No unit normalization was required because all numerical values are already in the target units (mV for potentials, mV dec⁻¹ for Tafel slope, °C for temperature, etc.).
 
@@ -89,7 +93,7 @@ The project is validated using `scripts/validate_project.py` and pytest tests in
 | Processed dataset | `data/processed/dataset.csv` |
 | Merged (pre‑cleaning) | `data/interim/merged_records.csv` |
 | PDF‑extracted records | `data/extracted/pdf_extracted_records.csv` |
-| Web‑extracted records (empty) | `data/extracted/web_extracted_records.csv` |
+| Web‑extracted records | `data/extracted/web_extracted_records.csv` |
 | Extraction log | `data/extracted/extraction_log.jsonl` |
 | Schema | `specs/dataset_schema.json` |
 | Source map | `specs/source_map.json` |

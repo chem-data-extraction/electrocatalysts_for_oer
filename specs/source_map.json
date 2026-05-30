@@ -60,7 +60,27 @@
       }
     ],
     "supplementary_materials": [],
-    "databases": [],
+    "databases": [
+      {
+        "source_id": "db_catalysis_hub",
+        "name": "Catalysis-Hub / computational catalysis database",
+        "source_type": "database",
+        "url": "https://www.catalysis-hub.org",
+        "doi": "",
+        "access_status": "open_access",
+        "access_method": "GraphQL API (https://api.catalysis-hub.org/graphql)",
+        "access_date": "2026-05-30",
+        "license": "CC-BY-4.0",
+        "expected_data_volume": "very high",
+        "estimated_records": 1900,
+        "available_data_types": ["structured_records"],
+        "expected_fields": ["catalyst_composition", "source_doi", "notes"],
+        "extraction_strategy": {
+          "recommended_method": "GraphQL query with cursor pagination; filter by Equation field using keywords or oxygen-containing formulas. However, the database primarily contains DFT-calculated surface reactions (e.g., H2 adsorption) and lacks experimental OER parameters such as overpotential, Tafel slope, electrolyte, pH, etc. No OER-relevant records were found after fetching ~8000 reactions."
+        },
+        "notes": "Catalysis-Hub is not suitable for experimental OER dataset extraction. It contains computational data for heterogeneous catalysis (HER, CO oxidation, etc.). Consider excluding this source or repurposing for HER data if needed."
+      }
+    ],
     "aggregators": [],
     "github_repositories": [],
     "ml_datasets": []
