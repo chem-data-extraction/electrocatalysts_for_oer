@@ -78,6 +78,6 @@ Responses are JSON following the Relay Connection Specification:
 ## Output files
 `data/extracted/web_extracted_records.csv` – contains 1900 OER records.
 
-`data/extracted/catalysis_hub_snapshot.json` – raw JSON response from the API.
+`data/raw/web/catalysis_hub_snapshot.json` – raw JSON response from the API.
 
 `data/extracted/extraction_log.jsonl` – log entries with the step web_extraction, status success or failed on errors.
